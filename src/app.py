@@ -36,9 +36,7 @@ class EditMenu(QMenu):
     def __init__(self, parent=None):
         super().__init__('Edit', parent)
 
-        clahe = QAction('Adaptive Histogram Equalization', self)
-        clahe.triggered.connect(lambda: t.Clahe(self))
-        self.addAction(clahe)
+        self.addAction(t.Clahe(self))
 
 class App(QMainWindow):
     def __init__(self):

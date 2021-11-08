@@ -11,13 +11,18 @@ def compose(funcs):
 
     return reduce(inner, funcs, lambda x: x)
 
-class Clahe:
+class Clahe(QAction):
     def __init__(self, parent=None):
-        self.win = QMainWindow(parent)
+        super().__init__('Adaptive Histogram Equalization', parent)
+        self.triggered.connect(self.setup)
+
+    def setup(self):
         self.grid = 1
         self.clip = 1
-
         applied.append(self)
+
+        self.win = QMainWindow(self.parent())
+        self.win.setWindowTitle(self.text())
 
         grid_slider = QSlider(Qt.Horizontal, self.win)
         grid_slider.setRange(1, 100)
@@ -31,7 +36,12 @@ class Clahe:
         clip_slider.setPageStep(5)
         clip_slider.valueChanged.connect(self.update_clip)
 
-        self.win.setCentralWidget(clip_slider)
+        wid = QWidget(self.win)
+        layout = QVBoxLayout()
+        layout.addWidget(clip_slider)
+        layout.addWidget(grid_slider)
+        wid.setLayout(layout)
+        self.win.setCentralWidget(wid)
         self.win.show()
 
     def update_grid(self, value):
