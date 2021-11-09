@@ -38,6 +38,7 @@ class EditMenu(QMenu):
 
         self.addAction(t.Clahe(self))
         self.addAction(t.FalseClahe(self))
+        self.addAction(t.Sharpen(self))
 
 class App(QMainWindow):
     def __init__(self):

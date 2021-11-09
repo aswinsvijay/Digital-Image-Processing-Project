@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from functools import reduce
@@ -73,5 +74,46 @@ class FalseClahe(ClaheBase):
         img = img.copy()
         for i in range(3):
             img[..., i] = clahe.apply(img[..., i])
+
+        return img
+
+class Sharpen(QAction):
+    def __init__(self, parent=None):
+        super().__init__('Sharpen', parent)
+        self.triggered.connect(self.setup)
+
+    def setup(self):
+        self.k = 0
+        applied.append(self)
+
+        self.win = QMainWindow(self.parent())
+        self.win.setWindowTitle(self.text())
+
+        k_slider = QSlider(Qt.Horizontal, self.win)
+        k_slider.setRange(0, 100)
+        k_slider.setFocusPolicy(Qt.NoFocus)
+        k_slider.setPageStep(5)
+        k_slider.valueChanged.connect(self.update_k)
+
+        wid = QWidget(self.win)
+        layout = QVBoxLayout()
+        layout.addWidget(k_slider)
+        wid.setLayout(layout)
+        self.win.setCentralWidget(wid)
+        self.win.show()
+
+    def update_k(self, value):
+        self.k = value*0.01
+        self.win.parent().parent().show_img()
+
+    def __call__(self, img):
+        kernel = np.array([
+            [0, -1, 0],
+            [-1, 4, -1],
+            [0, -1, 0]
+        ])
+
+        img2 = cv2.filter2D(img, 0, kernel)
+        img = cv2.addWeighted(img, 1, img2, self.k, 0)
 
         return img
