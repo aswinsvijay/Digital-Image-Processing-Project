@@ -118,11 +118,17 @@ class Sharpen(QAction):
 
         return img
 
-# def __call__(self, img):
-    # img = np.sum(img, axis=2)
-    # img = (img*0.33).astype('uint8')
-    # img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    # return img
+# class Blur(QAction):
+    # def __call__(self, img):
+    #     return img
 
-# def __call__(self, img):
-#     return img
+# class Grayscale(QAction):
+    # def __call__(self, img):
+    #     img = np.sum(img, axis=2)
+    #     img = (img*0.33).astype('uint8')
+    #     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    #     return img
+
+# class Vignette(QAction):
+    # def __call__(self, img):
+    #     return img
