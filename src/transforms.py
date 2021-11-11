@@ -117,3 +117,12 @@ class Sharpen(QAction):
         img = cv2.addWeighted(img, 1, img2, self.k, 0)
 
         return img
+
+# def __call__(self, img):
+    # img = np.sum(img, axis=2)
+    # img = (img*0.33).astype('uint8')
+    # img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    # return img
+
+# def __call__(self, img):
+#     return img
