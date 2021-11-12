@@ -17,6 +17,11 @@ class Transform(QAction):
         super().__init__(title, parent)
         self.triggered.connect(self.setup)
 
+class Slider(QSlider):
+    def __init__(self, min, max, parent=None):
+        super().__init__(Qt.Horizontal, parent)
+        self.setRange(min, max)
+
 class ClaheBase(Transform):
     def setup(self):
         self.grid = 1
@@ -26,12 +31,10 @@ class ClaheBase(Transform):
         self.win = QMainWindow(self.parent())
         self.win.setWindowTitle(self.text())
 
-        grid_slider = QSlider(Qt.Horizontal, self.win)
-        grid_slider.setRange(1, 100)
+        grid_slider = Slider(1, 100, self.win)
         grid_slider.valueChanged.connect(self.update_grid)
 
-        clip_slider = QSlider(Qt.Horizontal, self.win)
-        clip_slider.setRange(1, 100)
+        clip_slider = Slider(1, 100, self.win)
         clip_slider.valueChanged.connect(self.update_clip)
 
         wid = QWidget(self.win)
@@ -87,8 +90,7 @@ class Sharpen(Transform):
         self.win = QMainWindow(self.parent())
         self.win.setWindowTitle(self.text())
 
-        k_slider = QSlider(Qt.Horizontal, self.win)
-        k_slider.setRange(0, 100)
+        k_slider = Slider(0, 100, self.win)
         k_slider.valueChanged.connect(self.update_k)
 
         wid = QWidget(self.win)
