@@ -24,7 +24,7 @@ class FileMenu(QMenu):
         self.addAction(save)
 
         close = QAction('Close', self)
-        close.setShortcut('Ctrl+X')
+        close.setShortcut('Ctrl+F4')
         close.triggered.connect(parent.file_close)
         self.addAction(close)
 
@@ -76,7 +76,7 @@ class App(QMainWindow):
         self.file_save()
 
     def file_close(self):
-        pass
+        print("File close")
 
     def file_exit(self):
         exit()
