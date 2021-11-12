@@ -28,14 +28,10 @@ class ClaheBase(Transform):
 
         grid_slider = QSlider(Qt.Horizontal, self.win)
         grid_slider.setRange(1, 100)
-        grid_slider.setFocusPolicy(Qt.NoFocus)
-        grid_slider.setPageStep(5)
         grid_slider.valueChanged.connect(self.update_grid)
 
         clip_slider = QSlider(Qt.Horizontal, self.win)
         clip_slider.setRange(1, 100)
-        clip_slider.setFocusPolicy(Qt.NoFocus)
-        clip_slider.setPageStep(5)
         clip_slider.valueChanged.connect(self.update_clip)
 
         wid = QWidget(self.win)
@@ -93,8 +89,6 @@ class Sharpen(Transform):
 
         k_slider = QSlider(Qt.Horizontal, self.win)
         k_slider.setRange(0, 100)
-        k_slider.setFocusPolicy(Qt.NoFocus)
-        k_slider.setPageStep(5)
         k_slider.valueChanged.connect(self.update_k)
 
         wid = QWidget(self.win)
