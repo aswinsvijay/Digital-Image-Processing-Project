@@ -12,7 +12,12 @@ def compose(funcs):
 
     return reduce(inner, funcs, lambda x: x)
 
-class ClaheBase(QAction):
+class Transform(QAction):
+    def __init__(self, title, parent=None):
+        super().__init__(title, parent)
+        self.triggered.connect(self.setup)
+
+class ClaheBase(Transform):
     def setup(self):
         self.grid = 1
         self.clip = 1
@@ -52,7 +57,6 @@ class ClaheBase(QAction):
 class Clahe(ClaheBase):
     def __init__(self, parent=None):
         super().__init__('Adaptive Histogram Equalization', parent)
-        self.triggered.connect(self.setup)
 
     def __call__(self, img):
         clahe = cv2.createCLAHE(clipLimit=self.clip, tileGridSize=(self.grid, self.grid))
@@ -66,7 +70,6 @@ class Clahe(ClaheBase):
 class FalseClahe(ClaheBase):
     def __init__(self, parent=None):
         super().__init__('False Adaptive Histogram Equalization', parent)
-        self.triggered.connect(self.setup)
 
     def __call__(self, img):
         clahe = cv2.createCLAHE(clipLimit=self.clip, tileGridSize=(self.grid, self.grid))
@@ -77,10 +80,9 @@ class FalseClahe(ClaheBase):
 
         return img
 
-class Sharpen(QAction):
+class Sharpen(Transform):
     def __init__(self, parent=None):
         super().__init__('Sharpen', parent)
-        self.triggered.connect(self.setup)
 
     def setup(self):
         self.k = 0
@@ -118,17 +120,17 @@ class Sharpen(QAction):
 
         return img
 
-# class Blur(QAction):
+# class Blur(Transform):
     # def __call__(self, img):
     #     return img
 
-# class Grayscale(QAction):
+# class Grayscale(Transform):
     # def __call__(self, img):
     #     img = np.sum(img, axis=2)
     #     img = (img*0.33).astype('uint8')
     #     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
     #     return img
 
-# class Vignette(QAction):
+# class Vignette(Transform):
     # def __call__(self, img):
     #     return img
