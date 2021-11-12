@@ -17,6 +17,18 @@ class Transform(QAction):
         super().__init__(title, parent)
         self.triggered.connect(self.setup)
 
+    def setup(self):
+        applied.append(self)
+
+        self.win = QMainWindow(self.parent())
+        self.win.setWindowTitle(self.text())
+
+        wid = QWidget(self.win)
+        self.layout = QVBoxLayout()
+        wid.setLayout(self.layout)
+        self.win.setCentralWidget(wid)
+        self.win.show()
+
 class Slider(QSlider):
     def __init__(self, min, max, parent=None):
         super().__init__(Qt.Horizontal, parent)
@@ -24,26 +36,18 @@ class Slider(QSlider):
 
 class ClaheBase(Transform):
     def setup(self):
+        super().setup()
+
         self.grid = 1
-        self.clip = 1
-        applied.append(self)
-
-        self.win = QMainWindow(self.parent())
-        self.win.setWindowTitle(self.text())
-
         grid_slider = Slider(1, 100, self.win)
         grid_slider.valueChanged.connect(self.update_grid)
 
+        self.clip = 1
         clip_slider = Slider(1, 100, self.win)
         clip_slider.valueChanged.connect(self.update_clip)
 
-        wid = QWidget(self.win)
-        layout = QVBoxLayout()
-        layout.addWidget(clip_slider)
-        layout.addWidget(grid_slider)
-        wid.setLayout(layout)
-        self.win.setCentralWidget(wid)
-        self.win.show()
+        self.layout.addWidget(clip_slider)
+        self.layout.addWidget(grid_slider)
 
     def update_grid(self, value):
         self.grid = value
@@ -84,21 +88,13 @@ class Sharpen(Transform):
         super().__init__('Sharpen', parent)
 
     def setup(self):
+        super().setup()
+
         self.k = 0
-        applied.append(self)
-
-        self.win = QMainWindow(self.parent())
-        self.win.setWindowTitle(self.text())
-
         k_slider = Slider(0, 100, self.win)
         k_slider.valueChanged.connect(self.update_k)
 
-        wid = QWidget(self.win)
-        layout = QVBoxLayout()
-        layout.addWidget(k_slider)
-        wid.setLayout(layout)
-        self.win.setCentralWidget(wid)
-        self.win.show()
+        self.layout.addWidget(k_slider)
 
     def update_k(self, value):
         self.k = value*0.01
