@@ -7,7 +7,7 @@ import transforms as t
 
 class FileMenu(QMenu):
     def __init__(self, parent=None):
-        super().__init__('File', parent)
+        super().__init__('&File', parent)
 
         open = QAction('Open', self)
         open.setShortcut('Ctrl+O')
@@ -34,7 +34,7 @@ class FileMenu(QMenu):
 
 class EditMenu(QMenu):
     def __init__(self, parent=None):
-        super().__init__('Edit', parent)
+        super().__init__('&Edit', parent)
 
         self.addAction(t.Clahe(self))
         self.addAction(t.FalseClahe(self))
