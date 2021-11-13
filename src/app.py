@@ -56,6 +56,7 @@ class App(QMainWindow):
 
         self.img_frame = QLabel()
         self.img_frame.setMinimumSize(1, 1)
+        self.img_frame.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setCentralWidget(self.img_frame)
 
         self.show()
