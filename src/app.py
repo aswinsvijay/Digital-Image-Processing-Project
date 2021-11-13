@@ -59,6 +59,13 @@ class App(QMainWindow):
         self.img_frame.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setCentralWidget(self.img_frame)
 
+        # wid = QWidget()
+        # layout = QHBoxLayout()
+        # layout.addWidget(self.img_frame)
+        # layout.addWidget(self.img_frame)
+        # wid.setLayout(layout)
+        # self.setCentralWidget(wid)
+
         self.show()
 
     def resizeEvent(self, event):
