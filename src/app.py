@@ -44,6 +44,7 @@ class App(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'Image editor'
+        self.og_img = None
         self.img = None
 
         self.setWindowTitle(self.title)
@@ -54,9 +55,14 @@ class App(QMainWindow):
         menubar.addMenu(EditMenu(self))
 
         self.img_frame = QLabel()
+        self.img_frame.setMinimumSize(1, 1)
         self.setCentralWidget(self.img_frame)
 
         self.show()
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.show_img()
 
     def file_open(self):
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
@@ -82,5 +88,7 @@ class App(QMainWindow):
         exit()
 
     def show_img(self):
-        self.img = Image(t.compose(t.applied)(self.og_img))
-        self.img_frame.setPixmap(self.img.toPixmap())
+        if self.og_img is not None:
+            self.img = Image(t.compose(t.applied)(self.og_img))
+            w, h = self.img_frame.width(), self.img_frame.height()
+            self.img_frame.setPixmap(self.img.toPixmap().scaled(w, h, Qt.KeepAspectRatio))

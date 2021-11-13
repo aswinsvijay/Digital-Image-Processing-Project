@@ -19,10 +19,5 @@ class Image(np.ndarray):
         return self.shape[2]
 
     def toPixmap(self):
-        img = self.fit_to_screen()
-        img = QImage(img.data, img.width, img.height, img.ch*img.width, QImage.Format_BGR888)
+        img = QImage(self.data, self.width, self.height, self.ch*self.width, QImage.Format_BGR888)
         return QPixmap.fromImage(img)
-
-    def fit_to_screen(self):
-        img = cv2.resize(self, (800*self.width//self.height, 800))
-        return self.__class__(img)
