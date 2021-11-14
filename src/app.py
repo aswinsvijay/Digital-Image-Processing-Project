@@ -37,7 +37,6 @@ class EditMenu(QMenu):
         super().__init__('&Edit', parent)
 
         self.addAction(t.Clahe(self))
-        self.addAction(t.FalseClahe(self))
         self.addAction(t.Sharpen(self))
 
 class ImageLabel(QLabel):

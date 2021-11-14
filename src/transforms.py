@@ -31,7 +31,10 @@ class Slider(QSlider):
         super().__init__(Qt.Horizontal, parent)
         self.setRange(min, max)
 
-class ClaheBase(Transform):
+class Clahe(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Adaptive Histogram Equalization', parent)
+
     def setup(self):
         super().setup()
 
@@ -43,8 +46,12 @@ class ClaheBase(Transform):
         clip_slider = Slider(1, 100)
         clip_slider.valueChanged.connect(self.update_clip)
 
+        self.split_channel = QCheckBox('Equalise RGB channels separately')
+        self.split_channel.stateChanged.connect(self.parent().parent().show_img)
+
         self.layout.addWidget(clip_slider)
         self.layout.addWidget(grid_slider)
+        self.layout.addWidget(self.split_channel)
 
     def update_grid(self, value):
         self.grid = value
@@ -54,29 +61,17 @@ class ClaheBase(Transform):
         self.clip = value*0.1
         self.parent().parent().show_img()
 
-class Clahe(ClaheBase):
-    def __init__(self, parent=None):
-        super().__init__('Adaptive Histogram Equalization', parent)
-
     def __call__(self, img):
         clahe = cv2.createCLAHE(clipLimit=self.clip, tileGridSize=(self.grid, self.grid))
 
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
-        img[..., 0] = clahe.apply(img[..., 0])
-        img = cv2.cvtColor(img, cv2.COLOR_YCrCb2BGR)
-
-        return img
-
-class FalseClahe(ClaheBase):
-    def __init__(self, parent=None):
-        super().__init__('False Adaptive Histogram Equalization', parent)
-
-    def __call__(self, img):
-        clahe = cv2.createCLAHE(clipLimit=self.clip, tileGridSize=(self.grid, self.grid))
-
-        img = img.copy()
-        for i in range(3):
-            img[..., i] = clahe.apply(img[..., i])
+        if self.split_channel.isChecked():
+            img = img.copy()
+            for i in range(3):
+                img[..., i] = clahe.apply(img[..., i])
+        else:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+            img[..., 0] = clahe.apply(img[..., 0])
+            img = cv2.cvtColor(img, cv2.COLOR_YCrCb2BGR)
 
         return img
 
