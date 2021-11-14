@@ -52,6 +52,7 @@ class ToolsLabel(QWidget):
 
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
+        self.setMaximumWidth(500)
         self.setLayout(layout)
 
 class App(QMainWindow):
@@ -72,8 +73,8 @@ class App(QMainWindow):
         self.tool_frame = ToolsLabel()
 
         layout = QHBoxLayout()
-        layout.addWidget(self.img_frame)
-        layout.addWidget(self.tool_frame)
+        layout.addWidget(self.img_frame, stretch=75)
+        layout.addWidget(self.tool_frame, stretch=25)
         wid = QWidget()
         wid.setLayout(layout)
         self.setCentralWidget(wid)
