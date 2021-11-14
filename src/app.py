@@ -40,6 +40,12 @@ class EditMenu(QMenu):
         self.addAction(t.FalseClahe(self))
         self.addAction(t.Sharpen(self))
 
+class ImageLabel(QLabel):
+    def __init__(self):
+        super().__init__()
+        self.setMinimumSize(1, 1)
+        self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+
 class App(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -54,9 +60,7 @@ class App(QMainWindow):
         menubar.addMenu(FileMenu(self))
         menubar.addMenu(EditMenu(self))
 
-        self.img_frame = QLabel()
-        self.img_frame.setMinimumSize(1, 1)
-        self.img_frame.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.img_frame = ImageLabel()
         self.setCentralWidget(self.img_frame)
 
         # wid = QWidget()
