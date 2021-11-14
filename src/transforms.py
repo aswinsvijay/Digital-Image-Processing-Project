@@ -20,14 +20,11 @@ class Transform(QAction):
     def setup(self):
         applied.append(self)
 
-        self.win = QMainWindow(self.parent())
-        self.win.setWindowTitle(self.text())
-
-        wid = QWidget(self.win)
+        wid = QWidget()
         self.layout = QVBoxLayout()
         wid.setLayout(self.layout)
-        self.win.setCentralWidget(wid)
-        self.win.show()
+
+        self.parent().parent().tool_frame.layout().addWidget(wid)
 
 class Slider(QSlider):
     def __init__(self, min, max, parent=None):
@@ -39,11 +36,11 @@ class ClaheBase(Transform):
         super().setup()
 
         self.grid = 1
-        grid_slider = Slider(1, 100, self.win)
+        grid_slider = Slider(1, 100)
         grid_slider.valueChanged.connect(self.update_grid)
 
         self.clip = 1
-        clip_slider = Slider(1, 100, self.win)
+        clip_slider = Slider(1, 100)
         clip_slider.valueChanged.connect(self.update_clip)
 
         self.layout.addWidget(clip_slider)
@@ -51,11 +48,11 @@ class ClaheBase(Transform):
 
     def update_grid(self, value):
         self.grid = value
-        self.win.parent().parent().show_img()
+        self.parent().parent().show_img()
 
     def update_clip(self, value):
         self.clip = value*0.1
-        self.win.parent().parent().show_img()
+        self.parent().parent().show_img()
 
 class Clahe(ClaheBase):
     def __init__(self, parent=None):
@@ -91,14 +88,14 @@ class Sharpen(Transform):
         super().setup()
 
         self.k = 0
-        k_slider = Slider(0, 100, self.win)
+        k_slider = Slider(0, 100)
         k_slider.valueChanged.connect(self.update_k)
 
         self.layout.addWidget(k_slider)
 
     def update_k(self, value):
         self.k = value*0.01
-        self.win.parent().parent().show_img()
+        self.parent().parent().show_img()
 
     def __call__(self, img):
         kernel = np.array([

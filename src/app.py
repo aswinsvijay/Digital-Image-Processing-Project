@@ -46,6 +46,13 @@ class ImageLabel(QLabel):
         self.setMinimumSize(1, 1)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
+class ToolsLabel(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
 class App(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -61,14 +68,14 @@ class App(QMainWindow):
         menubar.addMenu(EditMenu(self))
 
         self.img_frame = ImageLabel()
-        self.setCentralWidget(self.img_frame)
+        self.tool_frame = ToolsLabel()
 
-        # wid = QWidget()
-        # layout = QHBoxLayout()
-        # layout.addWidget(self.img_frame)
-        # layout.addWidget(self.img_frame)
-        # wid.setLayout(layout)
-        # self.setCentralWidget(wid)
+        layout = QHBoxLayout()
+        layout.addWidget(self.img_frame)
+        layout.addWidget(self.tool_frame)
+        wid = QWidget()
+        wid.setLayout(layout)
+        self.setCentralWidget(wid)
 
         self.show()
 
