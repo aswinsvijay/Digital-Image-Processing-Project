@@ -51,6 +51,7 @@ class ToolsLabel(QWidget):
         super().__init__(parent)
 
         layout = QVBoxLayout()
+        layout.setAlignment(Qt.AlignTop)
         self.setLayout(layout)
 
 class App(QMainWindow):
