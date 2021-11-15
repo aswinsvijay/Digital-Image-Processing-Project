@@ -15,7 +15,13 @@ def compose(funcs):
 class Transform(QAction):
     def __init__(self, title, parent=None):
         super().__init__(title, parent)
-        self.triggered.connect(self.setup)
+        self.triggered.connect(self.check_transform)
+
+    def check_transform(self):
+        if any(isinstance(i, self.__class__) for i in applied):
+            return
+        else:
+            self.setup()
 
     def setup(self):
         applied.append(self)
