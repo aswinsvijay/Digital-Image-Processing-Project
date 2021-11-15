@@ -10,7 +10,10 @@ def compose(funcs):
     def inner(f, g):
         return lambda x: g(f(x))
 
-    return reduce(inner, funcs, lambda x: x)
+    applied_enabled = list(filter(
+        lambda x: x.enabled.isChecked(), funcs
+    ))
+    return reduce(inner, applied_enabled, lambda x: x)
 
 class Transform(QAction):
     def __init__(self, title, parent=None):
@@ -28,8 +31,12 @@ class Transform(QAction):
 
         self.wid = QWidget()
         self.wid.setLayout(QVBoxLayout())
-
         self.parent().parent().tool_frame.layout().addWidget(self.wid)
+
+        self.enabled = QCheckBox('Enabled')
+        self.enabled.setChecked(True)
+        self.enabled.stateChanged.connect(self.parent().parent().show_img)
+        self.wid.layout().addWidget(self.enabled)
 
 class Slider(QSlider):
     def __init__(self, min, max, parent=None):
