@@ -27,8 +27,7 @@ class Transform(QAction):
         applied.append(self)
 
         self.wid = QWidget()
-        layout = QVBoxLayout()
-        self.wid.setLayout(layout)
+        self.wid.setLayout(QVBoxLayout())
 
         self.parent().parent().tool_frame.layout().addWidget(self.wid)
 
