@@ -41,16 +41,15 @@ class Clahe(Transform):
         self.grid = 1
         grid_slider = Slider(1, 100)
         grid_slider.valueChanged.connect(self.update_grid)
+        self.wid.layout().addWidget(grid_slider)
 
         self.clip = 1
         clip_slider = Slider(1, 100)
         clip_slider.valueChanged.connect(self.update_clip)
+        self.wid.layout().addWidget(clip_slider)
 
         self.split_channel = QCheckBox('Equalise RGB channels separately')
         self.split_channel.stateChanged.connect(self.parent().parent().show_img)
-
-        self.wid.layout().addWidget(clip_slider)
-        self.wid.layout().addWidget(grid_slider)
         self.wid.layout().addWidget(self.split_channel)
 
     def update_grid(self, value):
@@ -85,7 +84,6 @@ class Sharpen(Transform):
         self.k = 0
         k_slider = Slider(0, 100)
         k_slider.valueChanged.connect(self.update_k)
-
         self.wid.layout().addWidget(k_slider)
 
     def update_k(self, value):
