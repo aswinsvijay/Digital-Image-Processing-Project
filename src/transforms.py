@@ -20,11 +20,11 @@ class Transform(QAction):
     def setup(self):
         applied.append(self)
 
-        wid = QWidget()
-        self.layout = QVBoxLayout()
-        wid.setLayout(self.layout)
+        self.wid = QWidget()
+        layout = QVBoxLayout()
+        self.wid.setLayout(layout)
 
-        self.parent().parent().tool_frame.layout().addWidget(wid)
+        self.parent().parent().tool_frame.layout().addWidget(self.wid)
 
 class Slider(QSlider):
     def __init__(self, min, max, parent=None):
@@ -49,9 +49,9 @@ class Clahe(Transform):
         self.split_channel = QCheckBox('Equalise RGB channels separately')
         self.split_channel.stateChanged.connect(self.parent().parent().show_img)
 
-        self.layout.addWidget(clip_slider)
-        self.layout.addWidget(grid_slider)
-        self.layout.addWidget(self.split_channel)
+        self.wid.layout().addWidget(clip_slider)
+        self.wid.layout().addWidget(grid_slider)
+        self.wid.layout().addWidget(self.split_channel)
 
     def update_grid(self, value):
         self.grid = value
@@ -86,7 +86,7 @@ class Sharpen(Transform):
         k_slider = Slider(0, 100)
         k_slider.valueChanged.connect(self.update_k)
 
-        self.layout.addWidget(k_slider)
+        self.wid.layout().addWidget(k_slider)
 
     def update_k(self, value):
         self.k = value*0.01
