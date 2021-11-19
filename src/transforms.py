@@ -105,8 +105,8 @@ class Sharpen(Transform):
         return img
 
 # class Blur(Transform):
-    # def __call__(self, img):
-    #     return img
+#     def __call__(self, img):
+#         return img
 
 # class Grayscale(Transform):
 #     def __call__(self, img):
@@ -121,5 +121,5 @@ class Sharpen(Transform):
 #         return img
 
 # class Vignette(Transform):
-    # def __call__(self, img):
-    #     return img
+#     def __call__(self, img):
+#         return img
