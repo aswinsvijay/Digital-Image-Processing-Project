@@ -109,11 +109,16 @@ class Sharpen(Transform):
     #     return img
 
 # class Grayscale(Transform):
-    # def __call__(self, img):
-    #     img = np.sum(img, axis=2)
-    #     img = (img*0.33).astype('uint8')
-    #     img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-    #     return img
+#     def __call__(self, img):
+#         if self.channel_weighted.isChecked():
+#             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+#         else:
+#             img = np.sum(img, axis=2)
+#             img = (img*0.33).astype('uint8')
+#             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+#         return img
 
 # class Vignette(Transform):
     # def __call__(self, img):
