@@ -20,6 +20,8 @@ class Transform(QAction):
         super().__init__(title, parent)
         self.triggered.connect(self.check_transform)
 
+        self.show_img = self.parent().parent().show_img
+
     def check_transform(self):
         if any(isinstance(i, self.__class__) for i in applied):
             return
@@ -35,7 +37,7 @@ class Transform(QAction):
 
         self.enabled = QCheckBox('Enabled')
         self.enabled.setChecked(True)
-        self.enabled.stateChanged.connect(self.parent().parent().show_img)
+        self.enabled.stateChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.enabled)
 
 class Slider(QSlider):
@@ -51,15 +53,15 @@ class Clahe(Transform):
         super().setup()
 
         self.grid_slider = Slider(1, 100)
-        self.grid_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.grid_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.grid_slider)
 
         self.clip_slider = Slider(1, 100)
-        self.clip_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.clip_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.clip_slider)
 
         self.split_channel = QCheckBox('Equalise RGB channels separately')
-        self.split_channel.stateChanged.connect(self.parent().parent().show_img)
+        self.split_channel.stateChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.split_channel)
 
     def __call__(self, img):
@@ -86,7 +88,7 @@ class Sharpen(Transform):
         super().setup()
 
         self.k_slider = Slider(0, 100)
-        self.k_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.k_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.k_slider)
 
     def __call__(self, img):
