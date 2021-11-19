@@ -50,30 +50,22 @@ class Clahe(Transform):
     def setup(self):
         super().setup()
 
-        self.grid = 1
-        grid_slider = Slider(1, 100)
-        grid_slider.valueChanged.connect(self.update_grid)
-        self.wid.layout().addWidget(grid_slider)
+        self.grid_slider = Slider(1, 100)
+        self.grid_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.wid.layout().addWidget(self.grid_slider)
 
-        self.clip = 1
-        clip_slider = Slider(1, 100)
-        clip_slider.valueChanged.connect(self.update_clip)
-        self.wid.layout().addWidget(clip_slider)
+        self.clip_slider = Slider(1, 100)
+        self.clip_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.wid.layout().addWidget(self.clip_slider)
 
         self.split_channel = QCheckBox('Equalise RGB channels separately')
         self.split_channel.stateChanged.connect(self.parent().parent().show_img)
         self.wid.layout().addWidget(self.split_channel)
 
-    def update_grid(self, value):
-        self.grid = value
-        self.parent().parent().show_img()
-
-    def update_clip(self, value):
-        self.clip = value*0.1
-        self.parent().parent().show_img()
-
     def __call__(self, img):
-        clahe = cv2.createCLAHE(clipLimit=self.clip, tileGridSize=(self.grid, self.grid))
+        clip = self.clip_slider.value() * 0.1
+        grid = self.grid_slider.value()
+        clahe = cv2.createCLAHE(clipLimit=clip, tileGridSize=(grid, grid))
 
         if self.split_channel.isChecked():
             img = img.copy()
@@ -93,16 +85,12 @@ class Sharpen(Transform):
     def setup(self):
         super().setup()
 
-        self.k = 0
-        k_slider = Slider(0, 100)
-        k_slider.valueChanged.connect(self.update_k)
-        self.wid.layout().addWidget(k_slider)
-
-    def update_k(self, value):
-        self.k = value*0.01
-        self.parent().parent().show_img()
+        self.k_slider = Slider(0, 100)
+        self.k_slider.valueChanged.connect(self.parent().parent().show_img)
+        self.wid.layout().addWidget(self.k_slider)
 
     def __call__(self, img):
+        k = self.k_slider.value() * 0.01
         kernel = np.array([
             [0, -1, 0],
             [-1, 4, -1],
@@ -110,7 +98,7 @@ class Sharpen(Transform):
         ])
 
         img2 = cv2.filter2D(img, 0, kernel)
-        img = cv2.addWeighted(img, 1, img2, self.k, 0)
+        img = cv2.addWeighted(img, 1, img2, k, 0)
 
         return img
 
