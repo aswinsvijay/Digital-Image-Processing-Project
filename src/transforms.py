@@ -104,22 +104,45 @@ class Sharpen(Transform):
 
         return img
 
-# class Blur(Transform):
-#     def __call__(self, img):
-#         return img
+class Blur(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Blur', parent)
 
-# class Grayscale(Transform):
-#     def __call__(self, img):
-#         if self.channel_weighted.isChecked():
-#             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-#         else:
-#             img = np.sum(img, axis=2)
-#             img = (img*0.33).astype('uint8')
-#             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+    def setup(self):
+        super().setup()
 
-#         return img
+        self.k_slider = Slider(1, 100)
+        self.k_slider.valueChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.k_slider)
 
-# class Vignette(Transform):
-#     def __call__(self, img):
-#         return img
+    def __call__(self, img):
+        k = self.k_slider.value()
+
+        img = cv2.blur(img, (k, k))
+        return img
+
+class Grayscale(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Grayscale', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.channel_weighted = QCheckBox('Channel weighted grayscale')
+        self.channel_weighted.stateChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.channel_weighted)
+
+    def __call__(self, img):
+        if self.channel_weighted.isChecked():
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+        else:
+            img = np.sum(img, axis=2)
+            img = (img*0.33).astype('uint8')
+            img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+
+        return img
+
+class Vignette(Transform):
+    def __call__(self, img):
+        return img
