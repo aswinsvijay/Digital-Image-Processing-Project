@@ -144,5 +144,24 @@ class Grayscale(Transform):
         return img
 
 class Vignette(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Vignette', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.k_slider = Slider(1, 100)
+        self.k_slider.valueChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.k_slider)
+
     def __call__(self, img):
+        k = self.k_slider.value()
+
+        a = cv2.getGaussianKernel(img.shape[0], k)
+        b = cv2.getGaussianKernel(img.shape[1], k)
+        c = b * a.T
+
+        print(img.shape, c.shape)
+
+        # img = img * c
         return img
