@@ -150,18 +150,20 @@ class Vignette(Transform):
     def setup(self):
         super().setup()
 
-        self.k_slider = Slider(1, 100)
+        self.k_slider = Slider(0, 1000)
         self.k_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.k_slider)
 
     def __call__(self, img):
-        k = self.k_slider.value()
+        k = self.k_slider.maximum() - self.k_slider.value() + 1
 
         a = cv2.getGaussianKernel(img.shape[0], k)
         b = cv2.getGaussianKernel(img.shape[1], k)
-        c = b * a.T
+        mask = a * b.T
+        mask = mask / mask.max()
 
-        print(img.shape, c.shape)
-
-        # img = img * c
+        img = img.copy()
+        for i in range(3):
+            img[..., i] = img[..., i] * mask
+        img = img.astype(np.uint8)
         return img

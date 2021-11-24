@@ -40,6 +40,7 @@ class EditMenu(QMenu):
         self.addAction(t.Sharpen(self))
         self.addAction(t.Grayscale(self))
         self.addAction(t.Blur(self))
+        self.addAction(t.Vignette(self))
 
 class ImageLabel(QLabel):
     def __init__(self):
