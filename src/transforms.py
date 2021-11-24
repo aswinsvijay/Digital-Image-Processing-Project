@@ -34,7 +34,7 @@ class Transform(QAction):
 
         self.wid = QWidget()
         self.wid.setLayout(QVBoxLayout())
-        self.parent().parent().tool_frame.layout().addWidget(self.wid)
+        self.parent().parent().tool_frame.widget().layout().addWidget(self.wid)
 
         self.enabled = QCheckBox()
         self.enabled.setMaximumWidth(20)

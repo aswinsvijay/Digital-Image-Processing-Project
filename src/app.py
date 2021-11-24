@@ -48,14 +48,19 @@ class ImageLabel(QLabel):
         self.setMinimumSize(1, 1)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-class ToolsLabel(QWidget):
+class ToolsLabel(QScrollArea):
     def __init__(self, parent=None):
         super().__init__(parent)
 
+        widget = QWidget(self)
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
-        self.setMaximumWidth(500)
-        self.setLayout(layout)
+        widget.setMaximumWidth(500)
+        widget.setLayout(layout)
+
+        self.setWidgetResizable(True)
+        self.setWidget(widget)
+        self.setMinimumWidth(300)
 
 class App(QMainWindow):
     def __init__(self):
