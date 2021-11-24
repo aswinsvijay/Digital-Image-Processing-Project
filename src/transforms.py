@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QFont
 import cv2
 import numpy as np
 from PyQt5.QtWidgets import *
@@ -35,10 +36,22 @@ class Transform(QAction):
         self.wid.setLayout(QVBoxLayout())
         self.parent().parent().tool_frame.layout().addWidget(self.wid)
 
-        self.enabled = QCheckBox('Enabled')
+        self.enabled = QCheckBox()
+        self.enabled.setMaximumWidth(20)
         self.enabled.setChecked(True)
         self.enabled.stateChanged.connect(self.show_img)
-        self.wid.layout().addWidget(self.enabled)
+
+        self.title = QLabel(self.text())
+        font = QFont()
+        font.setBold(True)
+        font.setPointSize(10)
+        self.title.setFont(font)
+
+        header = QWidget()
+        header.setLayout(QHBoxLayout())
+        header.layout().addWidget(self.enabled)
+        header.layout().addWidget(self.title)
+        self.wid.layout().addWidget(header)
 
 class Slider(QSlider):
     def __init__(self, min, max, parent=None):
