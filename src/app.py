@@ -95,6 +95,10 @@ class App(QMainWindow):
         self.show_img()
 
     def file_open(self):
+        ret = self.file_close()
+        if ret is False:
+            return
+
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
         self.outfile = None
 
@@ -113,7 +117,7 @@ class App(QMainWindow):
 
     def file_close(self):
         if self.og_img is None:
-            return
+            return True
 
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Warning)
@@ -123,7 +127,7 @@ class App(QMainWindow):
         ret = msg.exec_()
 
         if ret == QMessageBox.Cancel:
-            return
+            return False
         elif ret == QMessageBox.Yes:
             self.file_save()
 
@@ -136,6 +140,8 @@ class App(QMainWindow):
         for i in t.applied:
             i.wid.close()
         t.applied = []
+
+        return True
 
     def file_exit(self):
         exit()
