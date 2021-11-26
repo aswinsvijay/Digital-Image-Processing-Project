@@ -2,7 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import cv2
-from image import Image
+from image import toPixmap
 import transforms as t
 
 class FileMenu(QMenu):
@@ -102,7 +102,7 @@ class App(QMainWindow):
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
         self.outfile = None
 
-        self.og_img = Image(cv2.imread(self.infile))
+        self.og_img = cv2.imread(self.infile)
         self.img = self.og_img.copy()
         self.show_img()
 
@@ -148,6 +148,6 @@ class App(QMainWindow):
 
     def show_img(self):
         if self.og_img is not None:
-            self.img = Image(t.compose(t.applied)(self.og_img))
+            self.img = t.compose(t.applied)(self.og_img)
             w, h = self.img_frame.width(), self.img_frame.height()
-            self.img_frame.setPixmap(self.img.toPixmap().scaled(w, h, Qt.KeepAspectRatio))
+            self.img_frame.setPixmap(toPixmap(self.img).scaled(w, h, Qt.KeepAspectRatio))
