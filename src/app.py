@@ -119,12 +119,15 @@ class App(QMainWindow):
         if self.og_img is None:
             return True
 
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Warning)
-        msg.setText("Do you want to save the changes?")
-        msg.setWindowTitle(self.title)
-        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-        ret = msg.exec_()
+        if t.applied:
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Warning)
+            msg.setText("Do you want to save the changes?")
+            msg.setWindowTitle(self.title)
+            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+            ret = msg.exec_()
+        else:
+            ret = QMessageBox.No
 
         if ret == QMessageBox.Cancel:
             return False
