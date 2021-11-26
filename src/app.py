@@ -124,7 +124,6 @@ class App(QMainWindow):
 
         if ret == QMessageBox.Cancel:
             return
-
         elif ret == QMessageBox.Yes:
             self.file_save()
 
@@ -133,6 +132,10 @@ class App(QMainWindow):
         self.outfile = None
         self.og_img = None
         self.img = None
+
+        for i in t.applied:
+            i.wid.close()
+        t.applied = []
 
     def file_exit(self):
         exit()
