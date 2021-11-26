@@ -145,6 +145,8 @@ class Grayscale(Transform):
         self.channel_weighted.stateChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.channel_weighted)
 
+        self.show_img()
+
     def __call__(self, img):
         if self.channel_weighted.isChecked():
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
