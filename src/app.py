@@ -66,6 +66,8 @@ class App(QMainWindow):
     def __init__(self):
         super().__init__()
         self.title = 'Image editor'
+        self.infile = None
+        self.outfile = None
         self.og_img = None
         self.img = None
 
@@ -111,6 +113,28 @@ class App(QMainWindow):
 
     def file_close(self):
         print("File close")
+
+        if self.og_img is None:
+            return
+
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Warning)
+        msg.setText("Do you want to save the changes?")
+        msg.setWindowTitle(self.title)
+        msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+        ret = msg.exec_()
+
+        if ret == QMessageBox.Cancel:
+            return
+
+        elif ret == QMessageBox.Yes:
+            self.file_save()
+
+        self.img_frame.setPixmap(QPixmap())
+        self.infile = None
+        self.outfile = None
+        self.og_img = None
+        self.img = None
 
     def file_exit(self):
         exit()
