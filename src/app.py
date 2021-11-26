@@ -112,8 +112,6 @@ class App(QMainWindow):
         self.file_save()
 
     def file_close(self):
-        print("File close")
-
         if self.og_img is None:
             return
 
