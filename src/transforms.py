@@ -183,3 +183,13 @@ class Vignette(Transform):
             img[..., i] = img[..., i] * mask
         img = img.astype(np.uint8)
         return img
+
+class Saturation(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Saturation', parent)
+
+    def setup(self):
+        super().setup()
+
+    def __call__(self, img):
+        return img
