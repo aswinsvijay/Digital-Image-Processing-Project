@@ -96,7 +96,7 @@ class App(QMainWindow):
 
     def file_open(self):
         ret = self.file_close()
-        if ret is False:
+        if not ret:
             return
 
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
@@ -144,7 +144,9 @@ class App(QMainWindow):
         return True
 
     def file_exit(self):
-        exit()
+        ret = self.file_close()
+        if ret:
+            exit()
 
     def show_img(self):
         if self.og_img is not None:
