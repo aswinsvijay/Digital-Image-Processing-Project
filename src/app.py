@@ -107,13 +107,15 @@ class App(QMainWindow):
         self.show_img()
 
     def file_save(self):
-        if self.outfile is None:
+        if not self.outfile:
             self.file_save_as()
-        cv2.imwrite(self.outfile, self.img)
+        if self.outfile:
+            cv2.imwrite(self.outfile, self.img)
 
     def file_save_as(self):
         self.outfile, _ = QFileDialog.getSaveFileName(self,"Save file", "","PNG file(*.png) ;; JPEG file(*.jpeg) ;; Bitmap file(*.bmp)")
-        self.file_save()
+        if self.outfile:
+            self.file_save()
 
     def file_close(self):
         if self.og_img is None:
