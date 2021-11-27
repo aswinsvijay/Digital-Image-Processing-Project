@@ -160,7 +160,9 @@ class App(QMainWindow):
             exit()
 
     def show_img(self):
-        if self.og_img is not None:
-            self.img = t.compose(t.applied)(self.og_img)
-            w, h = self.img_frame.width(), self.img_frame.height()
-            self.img_frame.setPixmap(toPixmap(self.img).scaled(w, h, Qt.KeepAspectRatio))
+        if self.og_img is None:
+            return
+
+        self.img = t.compose(t.applied)(self.og_img)
+        w, h = self.img_frame.width(), self.img_frame.height()
+        self.img_frame.setPixmap(toPixmap(self.img).scaled(w, h, Qt.KeepAspectRatio))
