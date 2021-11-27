@@ -103,8 +103,10 @@ class App(QMainWindow):
             return
 
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
-        self.outfile = None
+        if not self.infile:
+            return
 
+        self.outfile = None
         self.menu_edit.setEnabled(True)
         self.og_img = cv2.imread(self.infile)
         self.img = self.og_img.copy()
