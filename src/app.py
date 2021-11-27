@@ -35,6 +35,7 @@ class FileMenu(QMenu):
 class EditMenu(QMenu):
     def __init__(self, parent=None):
         super().__init__('&Edit', parent)
+        self.setEnabled(False)
 
         self.addAction(t.Clahe(self))
         self.addAction(t.Sharpen(self))
@@ -75,8 +76,10 @@ class App(QMainWindow):
         self.resize(800, 800)
 
         menubar = self.menuBar()
-        menubar.addMenu(FileMenu(self))
-        menubar.addMenu(EditMenu(self))
+        self.menu_file = FileMenu(self)
+        self.menu_edit = EditMenu(self)
+        menubar.addMenu(self.menu_file)
+        menubar.addMenu(self.menu_edit)
 
         self.img_frame = ImageLabel()
         self.tool_frame = ToolsLabel()
@@ -102,6 +105,7 @@ class App(QMainWindow):
         self.infile, _ = QFileDialog.getOpenFileName(self,"Open file", "","All files(*) ;; Images(*.png *.jpeg *.bmp)")
         self.outfile = None
 
+        self.menu_edit.setEnabled(True)
         self.og_img = cv2.imread(self.infile)
         self.img = self.og_img.copy()
         self.show_img()
@@ -141,6 +145,7 @@ class App(QMainWindow):
         self.outfile = None
         self.og_img = None
         self.img = None
+        self.menu_edit.setEnabled(False)
 
         for i in t.applied:
             i.wid.close()
