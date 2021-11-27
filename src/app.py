@@ -46,7 +46,7 @@ class EditMenu(QMenu):
 class ImageLabel(QLabel):
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(1, 1)
+        self.setMinimumSize(600, 600)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
 class ToolsLabel(QScrollArea):
@@ -73,7 +73,6 @@ class App(QMainWindow):
         self.img = None
 
         self.setWindowTitle(self.title)
-        self.resize(800, 800)
 
         menubar = self.menuBar()
         self.menu_file = FileMenu(self)
