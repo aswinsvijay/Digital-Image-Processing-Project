@@ -4,6 +4,7 @@ import numpy as np
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from functools import reduce
+from utils import Slider
 
 applied = []
 
@@ -52,11 +53,6 @@ class Transform(QAction):
         header.layout().addWidget(self.enabled)
         header.layout().addWidget(self.title)
         self.wid.layout().addWidget(header)
-
-class Slider(QSlider):
-    def __init__(self, min, max, parent=None):
-        super().__init__(Qt.Horizontal, parent)
-        self.setRange(min, max)
 
 class Clahe(Transform):
     def __init__(self, parent=None):
