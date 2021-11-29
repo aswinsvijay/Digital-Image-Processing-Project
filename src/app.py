@@ -161,6 +161,9 @@ class App(QMainWindow):
         if self.og_img is None:
             return
 
-        self.img = utils.compose(t.applied)(self.og_img.copy())
+        composite = utils.compose(t.applied)
+        self.img = composite(self.og_img.copy())
         w, h = self.img_frame.width(), self.img_frame.height()
-        self.img_frame.setPixmap(utils.toPixmap(self.img).scaled(w, h, Qt.KeepAspectRatio))
+        pixmap = utils.toPixmap(self.img)
+        pixmap = pixmap.scaled(w, h, Qt.KeepAspectRatio)
+        self.img_frame.setPixmap(pixmap)
