@@ -67,7 +67,6 @@ class Clahe(Transform):
         clahe = cv2.createCLAHE(clipLimit=clip, tileGridSize=(grid, grid))
 
         if self.split_channel.isChecked():
-            img = img.copy()
             for i in range(3):
                 img[..., i] = clahe.apply(img[..., i])
         else:
@@ -162,7 +161,6 @@ class Vignette(Transform):
         mask = a * b.T
         mask = mask / mask.max()
 
-        img = img.copy()
         for i in range(3):
             img[..., i] = img[..., i] * mask
         img = img.astype(np.uint8)
