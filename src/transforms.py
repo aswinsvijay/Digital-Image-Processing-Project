@@ -3,19 +3,9 @@ import cv2
 import numpy as np
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from functools import reduce
 from utils import Slider
 
 applied = []
-
-def compose(funcs):
-    def inner(f, g):
-        return lambda x: g(f(x))
-
-    applied_enabled = list(filter(
-        lambda x: x.enabled.isChecked(), funcs
-    ))
-    return reduce(inner, applied_enabled, lambda x: x)
 
 class Transform(QAction):
     def __init__(self, title, parent=None):
