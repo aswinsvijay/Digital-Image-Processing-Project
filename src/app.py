@@ -2,7 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import cv2
-from image import toPixmap
+from utils import toPixmap
 import transforms as t
 
 class FileMenu(QMenu):
