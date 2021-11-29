@@ -3,7 +3,7 @@ from functools import reduce
 
 def toPixmap(img):
     h, w, ch = img.shape
-    img = QImage(img.data, w, h, ch*w, QImage.Format_BGR888)
+    img = QImage(img.tobytes(), w, h, ch*w, QImage.Format_BGR888)
     return QPixmap.fromImage(img)
 
 class Slider(QSlider):
