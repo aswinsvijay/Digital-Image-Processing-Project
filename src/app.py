@@ -1,6 +1,4 @@
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from Qt5 import *
 import cv2
 import utils
 import transforms as t

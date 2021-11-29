@@ -1,8 +1,6 @@
-from PyQt5.QtGui import QFont
+from Qt5 import *
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
 from utils import Slider
 
 applied = []

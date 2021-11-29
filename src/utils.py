@@ -1,6 +1,4 @@
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QSlider
-from PyQt5.QtCore import Qt
+from Qt5 import *
 from functools import reduce
 
 def toPixmap(img):
