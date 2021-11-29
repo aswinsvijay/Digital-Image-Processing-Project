@@ -163,7 +163,8 @@ class App(QMainWindow):
 
         composite = utils.compose(t.applied)
         self.img = composite(self.og_img.copy())
-        w, h = self.img_frame.width(), self.img_frame.height()
         pixmap = utils.toPixmap(self.img)
+
+        w, h = self.img_frame.width(), self.img_frame.height()
         pixmap = pixmap.scaled(w, h, Qt.KeepAspectRatio)
         self.img_frame.setPixmap(pixmap)
