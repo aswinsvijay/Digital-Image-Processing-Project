@@ -1,4 +1,6 @@
 from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtWidgets import QSlider
+from PyQt5.QtCore import Qt
 
 def toPixmap(img):
     h, w, ch = img.shape
