@@ -132,7 +132,7 @@ class App(QMainWindow):
             msg.setText("Do you want to save the changes?")
             msg.setWindowTitle(self.title)
             msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
-            ret = msg.exec_()
+            ret = msg.exec()
         else:
             ret = QMessageBox.No
 

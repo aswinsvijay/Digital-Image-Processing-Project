@@ -4,4 +4,4 @@ from app import App
 
 app = QApplication(sys.argv)
 ex = App()
-app.exec_()
+app.exec()
