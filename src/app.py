@@ -35,11 +35,13 @@ class EditMenu(QMenu):
         super().__init__('&Edit', parent)
         self.setEnabled(False)
 
-        self.addAction(t.Clahe(self))
-        self.addAction(t.Sharpen(self))
-        self.addAction(t.Grayscale(self))
-        self.addAction(t.Blur(self))
-        self.addAction(t.Vignette(self))
+        self.addActions([
+            t.Clahe(self),
+            t.Sharpen(self),
+            t.Grayscale(self),
+            t.Blur(self),
+            t.Vignette(self)
+        ])
 
 class ImageLabel(QLabel):
     def __init__(self):
