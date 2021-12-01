@@ -51,9 +51,9 @@ class ToolsLabel(QScrollArea):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        widget = QWidget(self)
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
+        widget = QWidget(self)
         widget.setMaximumWidth(500)
         widget.setLayout(layout)
 

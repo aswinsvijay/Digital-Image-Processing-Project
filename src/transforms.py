@@ -30,10 +30,10 @@ class Transform(QAction):
         self.enabled.setChecked(True)
         self.enabled.stateChanged.connect(self.show_img)
 
-        self.title = QLabel(self.text())
         font = QFont()
         font.setBold(True)
         font.setPointSize(10)
+        self.title = QLabel(self.text())
         self.title.setFont(font)
 
         header = QWidget()
