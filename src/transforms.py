@@ -182,7 +182,7 @@ class Saturation(Transform):
         k = self.k_slider.value() * 0.01
 
         img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        img[..., 1] = np.clip(img[..., 1] * k, 0, 255)
+        img[..., 1] = (img[..., 1] * k).clip(0, 255)
         img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
         return img
 
