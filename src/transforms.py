@@ -175,3 +175,13 @@ class Saturation(Transform):
 
     def __call__(self, img):
         return img
+
+class Brightness(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Brightness', parent)
+
+    def setup(self):
+        super().setup()
+
+    def __call__(self, img):
+        return img
