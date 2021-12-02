@@ -40,7 +40,8 @@ class EditMenu(QMenu):
             t.Sharpen(self),
             t.Grayscale(self),
             t.Blur(self),
-            t.Vignette(self)
+            t.Vignette(self),
+            t.Saturation(self)
         ])
 
 class ImageLabel(QLabel):

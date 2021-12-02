@@ -173,7 +173,17 @@ class Saturation(Transform):
     def setup(self):
         super().setup()
 
+        self.k_slider = Slider(0, 200)
+        self.k_slider.setValue(100)
+        self.k_slider.valueChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.k_slider)
+
     def __call__(self, img):
+        k = self.k_slider.value() * 0.01
+
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        img[..., 1] = np.clip(img[..., 1] * k, 0, 255)
+        img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
         return img
 
 class Brightness(Transform):
