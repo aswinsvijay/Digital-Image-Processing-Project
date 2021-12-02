@@ -193,5 +193,10 @@ class Brightness(Transform):
     def setup(self):
         super().setup()
 
+        self.k_slider = Slider(0, 200)
+        self.k_slider.setValue(100)
+        self.k_slider.valueChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.k_slider)
+
     def __call__(self, img):
         return img
