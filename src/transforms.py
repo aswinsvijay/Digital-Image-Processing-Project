@@ -186,17 +186,13 @@ class Saturation(Transform):
         img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
         return img
 
-class Brightness(Transform):
+class Negative(Transform):
     def __init__(self, parent=None):
-        super().__init__('Brightness', parent)
+        super().__init__('Negative', parent)
 
     def setup(self):
         super().setup()
-
-        self.k_slider = Slider(0, 200)
-        self.k_slider.setValue(100)
-        self.k_slider.valueChanged.connect(self.show_img)
-        self.wid.layout().addWidget(self.k_slider)
+        self.show_img()
 
     def __call__(self, img):
-        return img
+        return cv2.bitwise_not(img)
