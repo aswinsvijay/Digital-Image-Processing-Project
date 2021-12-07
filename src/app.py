@@ -4,6 +4,8 @@ import utils
 import transforms as t
 
 class FileMenu(QMenu):
+    '''File menu options'''
+
     def __init__(self, parent=None):
         super().__init__('&File', parent)
 
@@ -31,6 +33,8 @@ class FileMenu(QMenu):
         self.addAction(exit)
 
 class EditMenu(QMenu):
+    '''Edit menu options'''
+
     def __init__(self, parent=None):
         super().__init__('&Edit', parent)
         self.setEnabled(False)
@@ -46,12 +50,16 @@ class EditMenu(QMenu):
         ])
 
 class ImageLabel(QLabel):
+    '''Section for showing image'''
+
     def __init__(self):
         super().__init__()
         self.setMinimumSize(600, 600)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
 class ToolsLabel(QScrollArea):
+    '''Section for showing tools'''
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -66,6 +74,8 @@ class ToolsLabel(QScrollArea):
         self.setMinimumWidth(300)
 
 class App(QMainWindow):
+    '''The main application window'''
+
     def __init__(self):
         super().__init__()
         self.title = 'Image editor'
@@ -76,12 +86,14 @@ class App(QMainWindow):
 
         self.setWindowTitle(self.title)
 
+        # create the menu bar
         menubar = self.menuBar()
         self.menu_file = FileMenu(self)
         self.menu_edit = EditMenu(self)
         menubar.addMenu(self.menu_file)
         menubar.addMenu(self.menu_edit)
 
+        # create the central layout
         self.img_frame = ImageLabel()
         self.tool_frame = ToolsLabel()
 
@@ -162,6 +174,7 @@ class App(QMainWindow):
             exit()
 
     def show_img(self):
+        '''To update the displayed image during various events'''
         if self.og_img is None:
             return
 
