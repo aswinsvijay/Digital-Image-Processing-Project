@@ -9,3 +9,10 @@ The application support the following features:
 * Vignette
 * Blur
 * Negative
+
+Requires the following libraries installed:
+* Numpy
+* OpenCV
+* PyQt5
+
+To execute the application, simple run the `main.py` file.
