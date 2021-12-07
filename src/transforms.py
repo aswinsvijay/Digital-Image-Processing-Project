@@ -44,7 +44,7 @@ class Transform(QAction):
 
 class Clahe(Transform):
     def __init__(self, parent=None):
-        super().__init__('Adaptive Histogram Equalization', parent)
+        super().__init__('Contrast', parent)
 
     def setup(self):
         super().setup()
