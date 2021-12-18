@@ -49,11 +49,11 @@ class Clahe(Transform):
     def setup(self):
         super().setup()
 
-        self.grid_slider = Slider(1, 100)
+        self.grid_slider = Slider(1, 100, 'Grid size')
         self.grid_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.grid_slider)
 
-        self.clip_slider = Slider(1, 100)
+        self.clip_slider = Slider(1, 100, 'Clip limit')
         self.clip_slider.valueChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.clip_slider)
 

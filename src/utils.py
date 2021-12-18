@@ -8,12 +8,26 @@ def toPixmap(img):
     img = QImage(img.tobytes(), w, h, ch*w, QImage.Format_BGR888)
     return QPixmap.fromImage(img)
 
-class Slider(QSlider):
+class Slider(QWidget):
     '''Subclass for easily creating a slider'''
 
-    def __init__(self, min, max, parent=None):
-        super().__init__(Qt.Horizontal, parent)
-        self.setRange(min, max)
+    def __init__(self, min, max, text=None, parent=None):
+        super().__init__(parent)
+        self.setLayout(QHBoxLayout())
+
+        if text is not None:
+            self.label = QLabel(text)
+            self.layout().addWidget(self.label)
+
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setRange(min, max)
+        self.layout().addWidget(self.slider)
+
+    def __getattribute__(self, __name: str):
+        try:
+            return super().__getattribute__(__name)
+        except:
+            return self.slider.__getattribute__(__name)
 
 def compose(funcs):
     '''Compose a list of functions to a single callable function'''
