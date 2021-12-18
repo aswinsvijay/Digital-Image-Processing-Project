@@ -196,3 +196,25 @@ class Negative(Transform):
 
     def __call__(self, img):
         return cv2.bitwise_not(img)
+
+class ColorChannel(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Color Channels', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.sliders = []
+        for c in 'BGR':
+            slider = Slider(0, 200, c)
+            slider.setValue(100)
+            slider.valueChanged.connect(self.show_img)
+            self.wid.layout().addWidget(slider)
+            self.sliders.append(slider)
+
+    def __call__(self, img):
+        for i in range(3):
+            k = self.sliders[i].value() * 0.01
+            img[..., i] = (img[..., i] * k).clip(0, 255)
+
+        return img

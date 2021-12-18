@@ -46,7 +46,8 @@ class EditMenu(QMenu):
             t.Blur(self),
             t.Vignette(self),
             t.Saturation(self),
-            t.Negative(self)
+            t.Negative(self),
+            t.ColorChannel(self)
         ])
 
 class ImageLabel(QLabel):
