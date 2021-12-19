@@ -218,3 +218,22 @@ class ColorChannel(Transform):
             img[..., i] = (img[..., i] * k).clip(0, 255)
 
         return img
+
+class HueRotate(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Hue Rotate', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.hue_slider = Slider(0, 180)
+        self.wid.layout().addWidget(self.hue_slider)
+        self.hue_slider.valueChanged.connect(self.show_img)
+
+    def __call__(self, img):
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        hue = img[..., 0].astype(np.uint32)
+        val = self.hue_slider.value()
+        img[..., 0] = (hue + val) % 180
+        img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
+        return img

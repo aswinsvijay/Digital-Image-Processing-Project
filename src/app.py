@@ -47,7 +47,8 @@ class EditMenu(QMenu):
             t.Vignette(self),
             t.Saturation(self),
             t.Negative(self),
-            t.ColorChannel(self)
+            t.ColorChannel(self),
+            t.HueRotate(self)
         ])
 
 class ImageLabel(QLabel):
