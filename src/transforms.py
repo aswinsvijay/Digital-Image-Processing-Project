@@ -237,3 +237,15 @@ class HueRotate(Transform):
         img[..., 0] = (hue + val) % 180
         img = cv2.cvtColor(img, cv2.COLOR_HSV2BGR)
         return img
+
+class Mirror(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Mirror', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.show_img()
+
+    def __call__(self, img):
+        return img[:, ::-1]
