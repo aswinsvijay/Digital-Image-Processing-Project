@@ -1,4 +1,5 @@
 from Qt5 import *
+import os
 import cv2
 import utils
 import transforms as t
@@ -21,6 +22,11 @@ class FileMenu(QMenu):
 
         save = QAction('Save As', self)
         save.triggered.connect(parent.file_save_as)
+        self.addAction(save)
+
+        save = QAction('Set android wallpaper', self)
+        save.setShortcut('Ctrl+W')
+        save.triggered.connect(parent.file_set_wallpaper)
         self.addAction(save)
 
         close = QAction('Close', self)
@@ -175,6 +181,20 @@ class App(QMainWindow):
         ret = self.file_close()
         if ret:
             exit()
+
+    def file_set_wallpaper(self):
+        if self.img is not None:
+            cv2.imwrite('x.png', self.img)
+            os.system(f'adb push x.png /storage/emulated/0/x.png')
+            os.system(
+                "adb shell am start \
+                -a android.intent.action.ATTACH_DATA \
+                -c android.intent.category.DEFAULT \
+                -d file:///sdcard/x.png \
+                -t 'image/*' \
+                -e mimeType 'image/*'"
+            )
+            os.remove('x.png')
 
     def show_img(self):
         '''To update the displayed image during various events'''
