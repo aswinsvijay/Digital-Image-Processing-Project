@@ -56,6 +56,7 @@ class EditMenu(QMenu):
             t.ColorChannel(self),
             t.HueRotate(self),
             t.Mirror(self),
+            t.Threshold(self),
         ])
 
 class ImageLabel(QLabel):

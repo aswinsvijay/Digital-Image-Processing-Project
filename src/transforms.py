@@ -249,3 +249,20 @@ class Mirror(Transform):
 
     def __call__(self, img):
         return img[:, ::-1]
+
+class Threshold(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Threshold', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.slider = Slider(0, 255)
+        self.wid.layout().addWidget(self.slider)
+        self.slider.valueChanged.connect(self.show_img)
+
+    def __call__(self, img):
+        Y = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)[..., 0]
+        thresh = self.slider.value()
+        img[Y<thresh] = 0
+        return img
