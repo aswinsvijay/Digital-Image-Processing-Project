@@ -266,3 +266,22 @@ class Threshold(Transform):
         thresh = self.slider.value()
         img[Y<thresh] = 0
         return img
+
+class ColourDepth(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Colour Depth', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.slider = Slider(1, 8)
+        self.slider.setValue(8)
+        self.wid.layout().addWidget(self.slider)
+        self.slider.valueChanged.connect(self.show_img)
+
+    def __call__(self, img):
+        bits = self.slider.value()
+        colours = 2**bits
+        img //= 2**(8-bits)
+        img *= np.uint8(255 / (colours - 1))
+        return img
