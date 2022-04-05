@@ -2,6 +2,9 @@ from Qt5 import *
 import os
 import cv2
 import utils
+from io import BytesIO
+import matplotlib.pyplot as plt
+import numpy as np
 import transforms as t
 
 class FileMenu(QMenu):
@@ -68,6 +71,38 @@ class ImageLabel(QLabel):
         self.setMinimumSize(600, 600)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
+class HistogramLabel(QLabel):
+    def __init__(self):
+        super().__init__()
+        self.setMinimumWidth(100)
+        self.setMaximumSize(500, 200)
+        self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.update()
+
+    def update_hist(self, img=None):
+        if img is None:
+            self.setPixmap(QPixmap())
+        else:
+            plt.clf()
+            img = img.reshape(-1, 3)
+            colours = ['blue', 'green', 'red']
+            plt.hist(img, bins=256, histtype='step', color=colours)
+            plt.hist(img.sum(axis=1)/3, bins=256, histtype='step', color='black')
+            stream = BytesIO()
+            plt.savefig(stream)
+
+            stream.seek(0)
+            hist = cv2.imdecode(
+                np.asarray(bytearray(stream.read()), dtype=np.uint8),
+                cv2.IMREAD_COLOR
+            )
+            stream.close()
+
+            pixmap = utils.toPixmap(hist)
+            w, h = self.width(), self.height()
+            pixmap = pixmap.scaled(w, h)
+            self.setPixmap(pixmap)
+
 class ToolsLabel(QScrollArea):
     '''Section for showing tools'''
 
@@ -82,7 +117,7 @@ class ToolsLabel(QScrollArea):
 
         self.setWidgetResizable(True)
         self.setWidget(widget)
-        self.setMinimumWidth(300)
+        self.setMinimumWidth(200)
 
 class App(QMainWindow):
     '''The main application window'''
@@ -106,14 +141,20 @@ class App(QMainWindow):
 
         # create the central layout
         self.img_frame = ImageLabel()
+        self.hist_frame = HistogramLabel()
         self.tool_frame = ToolsLabel()
 
-        layout = QHBoxLayout()
+        self.setCentralWidget(QWidget())
+        self.centralWidget().setLayout(QHBoxLayout())
+
+        sub_wid = QWidget()
+        sub_wid.setLayout(QVBoxLayout())
+        sub_wid.layout().addWidget(self.hist_frame, stretch=25)
+        sub_wid.layout().addWidget(self.tool_frame, stretch=75)
+
+        layout = self.centralWidget().layout()
         layout.addWidget(self.img_frame, stretch=75)
-        layout.addWidget(self.tool_frame, stretch=25)
-        wid = QWidget()
-        wid.setLayout(layout)
-        self.setCentralWidget(wid)
+        layout.addWidget(sub_wid, stretch=25)
 
         self.show()
 
@@ -201,6 +242,7 @@ class App(QMainWindow):
     def show_img(self):
         '''To update the displayed image during various events'''
         if self.og_img is None:
+            self.hist_frame.update_hist()
             return
 
         composite = utils.compose(t.applied)
@@ -220,3 +262,4 @@ class App(QMainWindow):
         self.img = cv2.resize(self.img, (w, h))
         pixmap = utils.toPixmap(self.img)
         self.img_frame.setPixmap(pixmap)
+        self.hist_frame.update_hist(self.img)
