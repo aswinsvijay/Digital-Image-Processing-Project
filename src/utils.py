@@ -5,7 +5,7 @@ def toPixmap(img):
     '''Converts OpenCV image (numpy array) to PyQt5 compatible PixMap'''
 
     h, w, ch = img.shape
-    img = QImage(img.tobytes(), w, h, ch*w, QImage.Format_BGR888)
+    img = QImage(img[..., ::-1].tobytes(), w, h, ch*w, QImage.Format_RGB888)
     return QPixmap.fromImage(img)
 
 class Slider(QWidget):
