@@ -205,8 +205,18 @@ class App(QMainWindow):
 
         composite = utils.compose(t.applied)
         self.img = composite(self.og_img.copy())
-        pixmap = utils.toPixmap(self.img)
 
-        w, h = self.img_frame.width(), self.img_frame.height()
-        pixmap = pixmap.scaled(w, h, Qt.KeepAspectRatio)
+        win_w, win_h = self.img_frame.width(), self.img_frame.height()
+        img_w, img_h = self.img.shape[1::-1]
+        win_aspect = win_w / win_h
+        img_aspect = img_w / img_h
+        if win_aspect > img_aspect:
+            h = win_h
+            w = int(h * img_aspect)
+        else:
+            w = win_w
+            h = int(w / img_aspect)
+
+        self.img = cv2.resize(self.img, (w, h))
+        pixmap = utils.toPixmap(self.img)
         self.img_frame.setPixmap(pixmap)
