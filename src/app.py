@@ -207,11 +207,11 @@ class App(QMainWindow):
         elif ret == QMessageBox.Yes:
             self.file_save()
 
-        self.img_frame.setPixmap(QPixmap())
         self.infile = None
         self.outfile = None
         self.og_img = None
         self.img = None
+        self.show_img()
         self.menu_edit.setEnabled(False)
 
         for i in t.applied:
@@ -242,6 +242,7 @@ class App(QMainWindow):
     def show_img(self):
         '''To update the displayed image during various events'''
         if self.og_img is None:
+            self.img_frame.setPixmap(QPixmap())
             self.hist_frame.update_hist()
             return
 
