@@ -88,15 +88,13 @@ class HistogramLabel(QLabel):
             colours = ['blue', 'green', 'red']
             plt.hist(img, bins=256, histtype='step', color=colours)
             plt.hist(img.sum(axis=1)/3, bins=256, histtype='step', color='black')
-            stream = BytesIO()
-            plt.savefig(stream)
 
-            stream.seek(0)
-            hist = cv2.imdecode(
-                np.asarray(bytearray(stream.read()), dtype=np.uint8),
-                cv2.IMREAD_COLOR
-            )
-            stream.close()
+            fig = plt.gcf()
+            fig.canvas.draw()
+            buff = fig.canvas.buffer_rgba().tobytes()
+            hist = np.fromstring(buff, dtype=np.uint8, sep='')
+            hist = hist.reshape(fig.canvas.get_width_height()[::-1] + (4,))
+            hist = hist[..., ::-1][..., 1:]
 
             pixmap = utils.toPixmap(hist)
             w, h = self.width(), self.height()
