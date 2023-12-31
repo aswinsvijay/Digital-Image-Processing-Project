@@ -17,6 +17,7 @@ class Transform(QAction):
             return
 
         self.setup()
+        self.show_img()
 
     def setup(self):
         applied.append(self)
@@ -44,7 +45,7 @@ class Transform(QAction):
 
 class Clahe(Transform):
     def __init__(self, parent=None):
-        super().__init__('Contrast', parent)
+        super().__init__('Clahe', parent)
 
     def setup(self):
         super().setup()
@@ -129,15 +130,13 @@ class Grayscale(Transform):
         self.channel_weighted.stateChanged.connect(self.show_img)
         self.wid.layout().addWidget(self.channel_weighted)
 
-        self.show_img()
-
     def __call__(self, img):
         if self.channel_weighted.isChecked():
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         else:
             img = np.sum(img, axis=2)
-            img = (img*0.33).astype('uint8')
+            img = (img*0.33).astype(np.uint8)
             img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
 
         return img
@@ -192,7 +191,6 @@ class Negative(Transform):
 
     def setup(self):
         super().setup()
-        self.show_img()
 
     def __call__(self, img):
         return cv2.bitwise_not(img)
@@ -244,8 +242,6 @@ class Mirror(Transform):
 
     def setup(self):
         super().setup()
-
-        self.show_img()
 
     def __call__(self, img):
         return img[:, ::-1]
