@@ -82,24 +82,26 @@ class HistogramLabel(QLabel):
     def update_hist(self, img=None):
         if img is None:
             self.setPixmap(QPixmap())
-        else:
-            plt.clf()
-            img = img.reshape(-1, 3)
-            colours = ['blue', 'green', 'red']
-            plt.hist(img, bins=256, histtype='step', color=colours)
-            plt.hist(img.sum(axis=1)/3, bins=256, histtype='step', color='black')
 
-            fig = plt.gcf()
-            fig.canvas.draw()
-            buff = fig.canvas.buffer_rgba().tobytes()
-            hist = np.fromstring(buff, dtype=np.uint8, sep='')
-            hist = hist.reshape(fig.canvas.get_width_height()[::-1] + (4,))
-            hist = hist[..., ::-1][..., 1:]
+            return
 
-            pixmap = utils.toPixmap(hist)
-            w, h = self.width(), self.height()
-            pixmap = pixmap.scaled(w, h)
-            self.setPixmap(pixmap)
+        plt.clf()
+        img = img.reshape(-1, 3)
+        colours = ['blue', 'green', 'red']
+        plt.hist(img, bins=256, histtype='step', color=colours)
+        plt.hist(img.sum(axis=1)/3, bins=256, histtype='step', color='black')
+
+        fig = plt.gcf()
+        fig.canvas.draw()
+        buff = fig.canvas.buffer_rgba().tobytes()
+        hist = np.fromstring(buff, dtype=np.uint8, sep='')
+        hist = hist.reshape(fig.canvas.get_width_height()[::-1] + (4,))
+        hist = hist[..., ::-1][..., 1:]
+
+        pixmap = utils.toPixmap(hist)
+        w, h = self.width(), self.height()
+        pixmap = pixmap.scaled(w, h)
+        self.setPixmap(pixmap)
 
 class ToolsLabel(QScrollArea):
     '''Section for showing tools'''

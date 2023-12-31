@@ -15,8 +15,8 @@ class Transform(QAction):
     def check_transform(self):
         if any(isinstance(i, self.__class__) for i in applied):
             return
-        else:
-            self.setup()
+
+        self.setup()
 
     def setup(self):
         applied.append(self)
