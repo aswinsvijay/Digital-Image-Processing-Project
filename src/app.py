@@ -49,7 +49,9 @@ class EditMenu(QMenu):
         self.setEnabled(False)
 
         self.addActions([
+            t.ContrastStretching(self),
             t.Clahe(self),
+            t.HistogramEqualization(self),
             t.Sharpen(self),
             t.Grayscale(self),
             t.Blur(self),

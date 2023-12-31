@@ -43,6 +43,41 @@ class Transform(QAction):
         header.layout().addWidget(self.title)
         self.wid.layout().addWidget(header)
 
+class ContrastStretching(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Contrast stretching', parent)
+
+    def setup(self):
+        super().setup()
+
+    def __call__(self, img):
+        img = img.astype('float')
+        img = (img - np.min(img)) / np.ptp(img)
+        img = np.uint8(img * 255)
+        return img
+
+class HistogramEqualization(Transform):
+    def __init__(self, parent=None):
+        super().__init__('Histogram equalization', parent)
+
+    def setup(self):
+        super().setup()
+
+        self.split_channel = QCheckBox('Equalise RGB channels separately')
+        self.split_channel.stateChanged.connect(self.show_img)
+        self.wid.layout().addWidget(self.split_channel)
+
+    def __call__(self, img):
+        if self.split_channel.isChecked():
+            for i in range(3):
+                img[..., i] = cv2.equalizeHist(img[..., i])
+        else:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+            img[..., 0] = cv2.equalizeHist(img[..., 0])
+            img = cv2.cvtColor(img, cv2.COLOR_YCrCb2BGR)
+
+        return img
+
 class Clahe(Transform):
     def __init__(self, parent=None):
         super().__init__('Clahe', parent)
