@@ -244,8 +244,7 @@ class App(QMainWindow):
             self.hist_frame.update_hist()
             return
 
-        composite = utils.compose(t.applied)
-        self.img = composite(self.og_img.copy())
+        self.img = utils.compose(t.applied)(self.og_img.copy())
 
         win_w, win_h = self.img_frame.width(), self.img_frame.height()
         img_w, img_h = self.img.shape[1::-1]
@@ -258,7 +257,6 @@ class App(QMainWindow):
             w = win_w
             h = int(w / img_aspect)
 
-        self.img = cv2.resize(self.img, (w, h))
-        pixmap = utils.toPixmap(self.img)
+        pixmap = utils.toPixmap(cv2.resize(self.img, (w, h)))
         self.img_frame.setPixmap(pixmap)
         self.hist_frame.update_hist(self.img)
