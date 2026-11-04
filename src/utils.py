@@ -23,11 +23,12 @@ class Slider(QWidget):
         self.slider.setRange(min, max)
         self.layout().addWidget(self.slider)
 
-    def __getattribute__(self, __name: str):
-        try:
-            return super().__getattribute__(__name)
-        except:
-            return self.slider.__getattribute__(__name)
+        # proxy methods
+        self.minimum = self.slider.minimum
+        self.maximum = self.slider.maximum
+        self.setValue = self.slider.setValue
+        self.value = self.slider.value
+        self.valueChanged = self.slider.valueChanged
 
 def compose(funcs):
     '''Compose a list of functions to a single callable function'''
