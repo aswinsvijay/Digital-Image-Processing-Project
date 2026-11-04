@@ -72,6 +72,7 @@ class ImageLabel(QLabel):
         super().__init__()
         self.setMinimumSize(600, 600)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.mouseMoveEvent = lambda ev: self.parent().parent().mouseMove(ev)
 
 class HistogramLabel(QLabel):
     def __init__(self):
@@ -264,3 +265,34 @@ class App(QMainWindow):
         pixmap = utils.toPixmap(cv2.resize(self.img, (w, h)))
         self.img_frame.setPixmap(pixmap)
         self.hist_frame.update_hist(self.img)
+
+    def mouseMove(self, ev: QMouseEvent):
+        if self.og_img is None or self.img is None:
+            return
+
+        img1 = self.og_img
+        img2 = utils.compose(t.applied)(self.og_img.copy())
+
+        win_w, win_h = self.img_frame.width(), self.img_frame.height()
+        img_w, img_h = img2.shape[1::-1]
+        win_aspect = win_w / win_h
+        img_aspect = img_w / img_h
+        if win_aspect > img_aspect:
+            h = win_h
+            w = int(h * img_aspect)
+        else:
+            w = win_w
+            h = int(w / img_aspect)
+
+        img1 = cv2.resize(img1, (w, h))
+        img2 = cv2.resize(img2, (w, h))
+
+        pos = ev.x()
+        if pos < 0:
+            pos = 0
+        if pos > w:
+            pos = w
+
+        img = np.concatenate([img1[:, :pos], img2[:, pos:]], axis=1)
+        pixmap = utils.toPixmap(img)
+        self.img_frame.setPixmap(pixmap)
