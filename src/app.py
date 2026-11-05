@@ -48,21 +48,29 @@ class EditMenu(QMenu):
         super().__init__('&Edit', parent)
         self.setEnabled(False)
 
+        def initializeAction(transform_cls):
+            return transform_cls(self)
+
         self.addActions([
-            t.ContrastStretching(self),
-            t.Clahe(self),
-            t.HistogramEqualization(self),
-            t.Sharpen(self),
-            t.Grayscale(self),
-            t.Blur(self),
-            t.Vignette(self),
-            t.Saturation(self),
-            t.Negative(self),
-            t.ColorChannel(self),
-            t.HueRotate(self),
-            t.Mirror(self),
-            t.Threshold(self),
-            t.ColourDepth(self),
+            *map(
+                initializeAction,
+                [
+                    t.ContrastStretching,
+                    t.Clahe,
+                    t.HistogramEqualization,
+                    t.Sharpen,
+                    t.Grayscale,
+                    t.Blur,
+                    t.Vignette,
+                    t.Saturation,
+                    t.Negative,
+                    t.ColorChannel,
+                    t.HueRotate,
+                    t.Mirror,
+                    t.Threshold,
+                    t.ColourDepth,
+                ]
+            )
         ])
 
 class ImageLabel(QLabel):
